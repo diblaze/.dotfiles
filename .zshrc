@@ -52,7 +52,7 @@ alias hib="systemctl hibernate"
 
 eval $(thefuck --alias)
 source /usr/share/nvm/init-nvm.sh
-export ANDROID_HOME=/home/de/home/deniii/Android/Sdk
+export ANDROID_HOME=/home/deniii/Android/Sdk
 export ANDROID_SDK_ROOT=/home/deniii/Android/Sdk
 
 #PATH
