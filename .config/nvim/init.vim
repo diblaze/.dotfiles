@@ -13,10 +13,35 @@ Plug 'numkil/ag.nvim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-fugitive'
 
+"Python plugins"
+Plug 'vim-scripts/indentpython.vim'
+Plug 'Valloric/YouCompleteMe'
+Plug 'vim-syntastic/syntastic'
+Plug 'nvie/vim-flake8'
+
+
 "End plug"
 call plug#end()
 
 filetype plugin indent on
+
+"Python settings"
+let python_highlight_all=1
+syntax on
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+
+"YouCompleteMe"
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+"Flag Whitespace"
+highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+"UTF-8"
+set encoding=utf-8
+
 
 "ack"
 if executable('ag')

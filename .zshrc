@@ -4,10 +4,10 @@
 # Path to your oh-my-zsh installation.
   export ZSH=/home/diblaze/.oh-my-zsh
 
-source /usr/share/zsh/share/antigen.zsh
+#source /usr/share/zsh/share/antigen.zsh
+source $HOME/antigen.zsh
 
 COMPLETION_WAITING_DOTS="true"
-
 
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
@@ -31,7 +31,7 @@ antigen bundle djui/alias-tips
 antigen apply
 
 #NVM
-source /usr/share/nvm/init-nvm.sh
+#source /usr/share/nvm/init-nvm.sh
 
 alias cls=clear
 alias grb="sudo grub-reboot 2 && reboot"
@@ -51,15 +51,24 @@ alias sus="systemctl suspend"
 alias hib="systemctl hibernate"
 
 eval $(thefuck --alias)
-source /usr/share/nvm/init-nvm.sh
+#source /usr/share/nvm/init-nvm.sh
 export ANDROID_HOME=/home/deniii/Android/Sdk
 export ANDROID_SDK_ROOT=/home/deniii/Android/Sdk
 
 #PATH
 PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 export PATH=$PATH:$HOME/bin/pintos
+export PATH=$PATH:/snap/bin
+export PATH=$PATH:/opt/Enpass/bin
 
 #PINTOS
 alias cdpintos="cd ~/Git/IDA/pintos/src/userprog"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=cyan"
+
+alias backendbuild="cd ~/Git/gymsystem/backend ; ./build.sh ; cd -"
+alias startzoezi="cd ~/Git/gymsystem/_lega/docker2 ; make watch ; cd -"
+alias bs="backendbuild ; sleep 5; startzoezi"
+alias cdz="cd ~/Git/gymsystem/_lega/docker2"
+
+export EDITOR='nvim'

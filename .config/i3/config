@@ -28,7 +28,8 @@ workspace_auto_back_and_forth yes
 # font, it doesn’t scale on retina/hidpi displays.
 
 # Rofi
-bindsym $mod+d exec rofi -show run #-font "System San Francisco Display 18"
+bindsym $mod+d exec zsh -c "rofi -show drun"
+#-font "System San Francisco Display 18"'
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -52,10 +53,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+odiaeresis move right
+#bindsym $mod+Shift+j move left
+#bindsym $mod+Shift+k move down
+#bindsym $mod+Shift+l move up
+#bindsym $mod+Shift+odiaeresis move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -106,7 +107,7 @@ bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
 bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+5 move container to workspace $workspace5
 bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
@@ -168,7 +169,7 @@ gaps outer 5
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3blocks -c ~/.config/i3/i3blocks.conf
+        status_command i3status -c ~/.config/i3status/config
         colors {
     		background $bg-color
 	    	separator #757575
@@ -188,8 +189,9 @@ for_window [class="Kalu"] floating enable
 
 ### MY CUSTOM CONFIG ###
 # Dual Monitor Setup -- not used
-set $firstMonitor DP-4
-set $secondMonitor DVI-I-0
+set $firstMonitor eDP-1
+set $secondMonitor HDMI-1
+set $thirdMonitor DP-1
 # Lock Keybind
 bindsym $mod+Shift+x exec ~/.config/i3/lock.sh  #i3lock --color "$bg-color"
 # AMixer Controls
@@ -213,11 +215,17 @@ set $workspace3 "3. IDE"
 set $workspace4 "4. Music"
 set $workspace5 "5. Chat"
 
-workspace $workspace1 output $firstMonitor
+workspace $workspace1 output $secondMonitor
 workspace $workspace2 output $firstMonitor
-workspace $workspace3 output $firstMonitor
-workspace $workspace4 output $secondMonitor
-workspace $workspace5 output $secondMonitor
+workspace $workspace3 output $thirdMonitor
+workspace $workspace4 output $thirdMonitor
+workspace $workspace5 output $thirdMonitor
+
+bindsym $mod+m exec xrandr --output HDMI-1 --off --output DP-1 --off
+bindsym $mod+shift+m exec xrandr --output HDMI-1 --auto --left-of eDP-1 --output DP-1 --auto --right-of eDP-1
+
+bindsym $mod+shift+h move workspace to output left
+bindsym $mod+shift+l move workspace to output right
 
 assign [class="Vivaldi-stable"] $workspace1
 #assign [class="Spotify"] $workspace4
@@ -226,17 +234,23 @@ for_window [class="Chromium"] move to workspace $workspace1
 
 assign [class="discord"] $workspace5
 assign [class="Terminator"] $workspace2
-for_window [class="Code"] move to workspace $workspace3
+assign [class="Code"] $workspace3
+assign [class="Slack"] $workspace5
 
 for_window [class=".*"] border pixel 0
 
 
 # Wallpaper
-exec_always --no-startup-id feh --bg-scale ~/Wallpaper/today/1.png
+exec_always --no-startup-id feh --bg-scale ~/Wallpaper/1.png
 # Screen Settings
-exec_always --no-startup-id xrandr --output DP-4 --rate 144.0 --mode 1920x1080 --left-of DVI-I-0 
+# exec_always --no-startup-id xrandr --output DP-1 --off --output HDMI-1 --mode 1920x1080 --left-of eDP-1 --rotate normal --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-2 --off 
+exec_always --no-startup-id ~/.screenlayout/zoezi.sh
+#--no-startup-id xrandr --output DP-4 --rate 144.0 --mode 1920x1080 --left-of DVI-I-0 
+exec killall -q gsd-print-notifications
+# Dunst
+exec --no-startup-id dunst
 # Compton
-exec --no-startup-id compton -f
+exec --no-startup-id compton --config ~/.config/i3/compton.conf
 # Spotify
 exec --no-startup-id spotify
 # Discord
@@ -245,3 +259,7 @@ exec --no-startup-id discord
 exec --no-startup-id terminator
 # Redshift
 exec --no-startup-id redshift
+# Touchpad Click
+exec xinput set-prop 10 279 1
+
+exec --no-startup-id slack
