@@ -1,0 +1,12 @@
+#!/bin/bash
+
+tempfile=`mktemp`;
+ticket=`git rev-parse --abbrev-ref HEAD | cut -f 1 -d '/' | sed -e 's/gs/gs-/'`
+message=`cat $1`;
+
+if [[ $ticket =~ ^(gs-)[0-9]+$ ]]; then
+  echo -e "$message\n\n--\nAiveo: [#$ticket] https://portal.aiveo.ca/organization/#INSERT-ORG/project/gs/workitems/view/$ticket" >> "$tempfile";
+  mv "$tempfile" "$1"
+else
+  rm $tempfile
+fi
