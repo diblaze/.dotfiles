@@ -217,12 +217,12 @@ set $workspace5 "5. Chat"
 
 workspace $workspace1 output $secondMonitor
 workspace $workspace2 output $firstMonitor
-workspace $workspace3 output $thirdMonitor
-workspace $workspace4 output $thirdMonitor
-workspace $workspace5 output $thirdMonitor
+workspace $workspace3 output $secondMonitor
+workspace $workspace4 output $secondMonitor
+workspace $workspace5 output $secondMonitor
 
-bindsym $mod+m exec xrandr --output HDMI-1 --off --output DP-1 --off
-bindsym $mod+shift+m exec xrandr --output HDMI-1 --auto --left-of eDP-1 --output DP-1 --auto --right-of eDP-1
+bindsym $mod+m exec xrandr --output HDMI-1 --off
+bindsym $mod+shift+m exec xrandr --output HDMI-1 --auto --left-of eDP-1 
 
 bindsym $mod+shift+h move workspace to output left
 bindsym $mod+shift+l move workspace to output right
