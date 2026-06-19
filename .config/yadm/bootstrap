@@ -50,8 +50,13 @@ fi
 
 # --- AUR packages (via yay) ---
 echo "==> Installing AUR packages..."
-yay -S --needed --noconfirm \
-    plasmazones-bin
+
+# plasmazones pins an exact KWin version and lags behind Plasma updates.
+# If already installed it keeps working; don't let a reinstall failure abort bootstrap.
+if ! yay -S --needed --noconfirm plasmazones-bin; then
+    echo "==> NOTE: plasmazones-bin install skipped (KWin version pin mismatch)."
+    echo "==> Existing install is unaffected; reinstall when the AUR pin updates."
+fi
 
 # --- Set zsh as default shell ---
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
