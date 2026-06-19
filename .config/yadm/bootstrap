@@ -1,0 +1,75 @@
+#!/bin/sh
+# ~/.config/yadm/bootstrap
+# Runs after `yadm clone` on a fresh machine
+
+set -e
+
+echo "==> Bootstrapping dotfiles environment..."
+
+# --- Official repo packages ---
+echo "==> Installing pacman packages..."
+sudo pacman -S --needed --noconfirm \
+    base-devel \
+    git \
+    zsh \
+    zsh-antidote \
+    starship \
+    ttf-jetbrains-mono-nerd \
+    ibus \
+    fzf \
+    eza \
+    bat \
+    ripgrep \
+    fd
+
+# --- Ensure yay is installed ---
+if ! command -v yay >/dev/null 2>&1; then
+    echo "==> yay not found, installing..."
+    # CachyOS ships yay in its repos — try that first (fast)
+    if sudo pacman -S --needed --noconfirm yay 2>/dev/null; then
+        echo "==> Installed yay from repos."
+    else
+        # Fallback: build from the AUR
+        echo "==> Building yay from AUR..."
+        tmpdir="$(mktemp -d)"
+        git clone https://aur.archlinux.org/yay-bin.git "$tmpdir/yay-bin"
+        ( cd "$tmpdir/yay-bin" && makepkg -si --noconfirm )
+        rm -rf "$tmpdir"
+    fi
+fi
+
+# --- AUR packages (via yay) ---
+echo "==> Installing AUR packages..."
+yay -S --needed --noconfirm \
+    plasmazones
+
+# --- Set zsh as default shell ---
+if [ "$SHELL" != "/usr/bin/zsh" ]; then
+    echo "==> Setting zsh as default shell..."
+    chsh -s /usr/bin/zsh
+fi
+
+# --- IBus autostart (dead-key fix for GTK apps like Ghostty) ---
+echo "==> Setting up IBus autostart..."
+mkdir -p ~/.config/autostart
+cat > ~/.config/autostart/ibus-daemon.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=IBus Daemon
+Exec=ibus-daemon --xim --daemonize --replace
+X-KDE-autostart-phase=1
+EOF
+
+# Note: ~/.config/environment.d/ibus.conf is tracked by yadm directly,
+# so it's already in place after clone. (GTK_IM_MODULE=ibus etc.)
+
+# --- Disable KWin electric-border tiling (for PlasmaZones) ---
+echo "==> Configuring KWin..."
+kwriteconfig6 --file kwinrc --group Windows --key ElectricBorderTiling false
+if command -v qdbus6 >/dev/null 2>&1; then
+    qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
+fi
+
+echo "==> Bootstrap complete."
+echo "==> Log out and back in for: zsh shell, IBus env vars, and KWin changes."
+echo "==> First new shell will be slightly slow while antidote caches plugins."
