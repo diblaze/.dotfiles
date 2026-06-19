@@ -1,0 +1,15 @@
+# Oh My Zsh libraries (core behavior + completions)
+ohmyzsh/ohmyzsh path:lib
+
+# Oh My Zsh plugins
+ohmyzsh/ohmyzsh path:plugins/git
+ohmyzsh/ohmyzsh path:plugins/sudo
+ohmyzsh/ohmyzsh path:plugins/archlinux
+ohmyzsh/ohmyzsh path:plugins/extract
+
+# Third-party plugins
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+
+# Syntax highlighting MUST be last
+zsh-users/zsh-syntax-highlighting
