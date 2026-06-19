@@ -1,0 +1,44 @@
+{
+  // --- Theme ---
+  "workbench.colorTheme": "Tokyo Night Storm",
+
+  // --- Font (you have JetBrainsMono Nerd Font from the bootstrap) ---
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', 'monospace'",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": true,
+  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+
+  // --- Editor behavior ---
+  "editor.formatOnSave": true,
+  "editor.tabSize": 4,
+  "editor.rulers": [80, 100],
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.autoSave": "onFocusChange",
+
+  // --- Default formatter ---
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // --- Python ---
+  "python.languageServer": "Pylance",
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "ms-python.python"
+  },
+
+  // --- Angular / TypeScript ---
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  // --- Terminal: use your zsh ---
+  "terminal.integrated.defaultProfile.linux": "zsh",
+
+  // --- Git ---
+  "git.autofetch": true,
+  "git.confirmSync": false,
+
+  // --- Telemetry off ---
+  "telemetry.telemetryLevel": "off"
+}
