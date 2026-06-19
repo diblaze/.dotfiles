@@ -16,6 +16,8 @@ sudo pacman -S --needed --noconfirm \
     ttf-jetbrains-mono-nerd \
     ibus \
     pkgfile \
+    bitwarden \
+    firefox \
     fzf \
     eza \
     bat \
