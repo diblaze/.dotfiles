@@ -16,11 +16,16 @@ sudo pacman -S --needed --noconfirm \
     starship \
     ttf-jetbrains-mono-nerd \
     ibus \
+    pkgfile \
     fzf \
     eza \
     bat \
     ripgrep \
     fd
+
+# --- Sync pkgfile database (for command-not-found handler) ---
+echo "==> Updating pkgfile database..."
+sudo pkgfile --update
 
 # --- Ensure yay is installed ---
 if ! command -v yay >/dev/null 2>&1; then
