@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=IBus Daemon
-Exec=ibus-daemon --xim --daemonize --replace
-X-KDE-autostart-phase=1
