@@ -1,7 +1,7 @@
 # ~/.zshrc
 
 # --- Antidote plugin manager ---
-source /usr/share/zsh-antidote/antidote.zsh
+source "$HOME/.antidote/antidote.zsh"
 antidote load   # reads ~/.zsh_plugins.txt
 
 # --- Prompt ---

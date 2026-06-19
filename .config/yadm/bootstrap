@@ -12,7 +12,6 @@ sudo pacman -S --needed --noconfirm \
     base-devel \
     git \
     zsh \
-    zsh-antidote \
     starship \
     ttf-jetbrains-mono-nerd \
     ibus \
@@ -26,6 +25,12 @@ sudo pacman -S --needed --noconfirm \
 # --- Sync pkgfile database (for command-not-found handler) ---
 echo "==> Updating pkgfile database..."
 sudo pkgfile --update
+
+# --- Install antidote (zsh plugin manager, via git) ---
+if [ ! -d "$HOME/.antidote" ]; then
+    echo "==> Installing antidote..."
+    git clone --depth=1 https://github.com/mattmc3/antidote.git "$HOME/.antidote"
+fi
 
 # --- Ensure yay is installed ---
 if ! command -v yay >/dev/null 2>&1; then
@@ -64,9 +69,6 @@ Name=IBus Daemon
 Exec=ibus-daemon --xim --daemonize --replace
 X-KDE-autostart-phase=1
 EOF
-
-# Note: ~/.config/environment.d/ibus.conf is tracked by yadm directly,
-# so it's already in place after clone. (GTK_IM_MODULE=ibus etc.)
 
 # --- Disable KWin electric-border tiling (for PlasmaZones) ---
 echo "==> Configuring KWin..."
