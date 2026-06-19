@@ -3,7 +3,7 @@ font-family = JetBrainsMono Nerd Font
 font-size = 12
 
 # Theme (Ghostty ships ~300 built-in themes)
-theme = catppuccin-mocha
+theme = TokyoNight Moon
 
 # Window
 background-opacity = 0.95
