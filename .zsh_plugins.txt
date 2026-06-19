@@ -7,8 +7,13 @@ ohmyzsh/ohmyzsh path:plugins/sudo
 ohmyzsh/ohmyzsh path:plugins/archlinux
 ohmyzsh/ohmyzsh path:plugins/extract
 
-# Third-party plugins
+# Completions
 zsh-users/zsh-completions
+
+# fzf-tab — must come AFTER compinit, BEFORE autosuggestions/highlighting
+Aloxaf/fzf-tab
+
+# Third-party
 zsh-users/zsh-autosuggestions
 
 # Syntax highlighting MUST be last

@@ -22,7 +22,8 @@ sudo pacman -S --needed --noconfirm \
     eza \
     bat \
     ripgrep \
-    fd
+    fd \
+    zoxide
 
 # --- Sync pkgfile database (for command-not-found handler) ---
 echo "==> Updating pkgfile database..."
