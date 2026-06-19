@@ -1,5 +1,10 @@
 # ~/.zshrc
 
+# --- Completion (must run before antidote so compdef exists) ---
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'   # case-insensitive
+
 # --- Antidote plugin manager ---
 source "$HOME/.antidote/antidote.zsh"
 antidote load   # reads ~/.zsh_plugins.txt
@@ -15,9 +20,6 @@ setopt SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_SPACE
 export HISTORY_IGNORE="(\&|[bf]g|c|clear|history|exit|q|pwd|* --help)"
 
 # --- Completion ---
-autoload -Uz compinit && compinit
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'   # case-insensitive
 
 cleanup() {
   local orphans
