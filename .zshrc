@@ -36,6 +36,9 @@ setopt AUTO_CD AUTO_PUSHD PUSHD_IGNORE_DUPS INTERACTIVE_COMMENTS
 eval "$(zoxide init zsh)"
 alias cd='z'
 
+# --- mise (runtime version manager) ---
+eval "$(mise activate zsh)"
+
 # --- pkgfile "command not found" handler ---
 [[ -e /usr/share/doc/pkgfile/command-not-found.zsh ]] && \
   source /usr/share/doc/pkgfile/command-not-found.zsh

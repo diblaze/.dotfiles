@@ -9,23 +9,24 @@ echo "==> Bootstrapping dotfiles environment..."
 # --- Official repo packages ---
 echo "==> Installing pacman packages..."
 sudo pacman -S --needed --noconfirm \
-    base-devel \
-    git \
-    zsh \
-    starship \
-    ttf-jetbrains-mono-nerd \
-    ibus \
-    pkgfile \
-    bitwarden \
-    firefox \
-    fzf \
-    eza \
-    bat \
-    ripgrep \
-    fd \
-    zoxide \
-    ghostty \
-    steam
+	base-devel \
+	git \
+	zsh \
+	starship \
+	ttf-jetbrains-mono-nerd \
+	ibus \
+	pkgfile \
+	bitwarden \
+	firefox \
+	fzf \
+	eza \
+	bat \
+	ripgrep \
+	fd \
+	zoxide \
+	ghostty \
+	steam \
+	mise
 
 # --- Sync pkgfile database (for command-not-found handler) ---
 echo "==> Updating pkgfile database..."
@@ -33,24 +34,24 @@ sudo pkgfile --update
 
 # --- Install antidote (zsh plugin manager, via git) ---
 if [ ! -d "$HOME/.antidote" ]; then
-    echo "==> Installing antidote..."
-    git clone --depth=1 https://github.com/mattmc3/antidote.git "$HOME/.antidote"
+	echo "==> Installing antidote..."
+	git clone --depth=1 https://github.com/mattmc3/antidote.git "$HOME/.antidote"
 fi
 
 # --- Ensure yay is installed ---
 if ! command -v yay >/dev/null 2>&1; then
-    echo "==> yay not found, installing..."
-    # CachyOS ships yay in its repos — try that first (fast)
-    if sudo pacman -S --needed --noconfirm yay 2>/dev/null; then
-        echo "==> Installed yay from repos."
-    else
-        # Fallback: build from the AUR
-        echo "==> Building yay from AUR..."
-        tmpdir="$(mktemp -d)"
-        git clone https://aur.archlinux.org/yay-bin.git "$tmpdir/yay-bin"
-        ( cd "$tmpdir/yay-bin" && makepkg -si --noconfirm )
-        rm -rf "$tmpdir"
-    fi
+	echo "==> yay not found, installing..."
+	# CachyOS ships yay in its repos — try that first (fast)
+	if sudo pacman -S --needed --noconfirm yay 2>/dev/null; then
+		echo "==> Installed yay from repos."
+	else
+		# Fallback: build from the AUR
+		echo "==> Building yay from AUR..."
+		tmpdir="$(mktemp -d)"
+		git clone https://aur.archlinux.org/yay-bin.git "$tmpdir/yay-bin"
+		( cd "$tmpdir/yay-bin" && makepkg -si --noconfirm )
+		rm -rf "$tmpdir"
+	fi
 fi
 
 # --- AUR packages (via yay) ---
@@ -61,14 +62,14 @@ yay -S --needed --noconfirm visual-studio-code-bin
 # plasmazones pins an exact KWin version and lags behind Plasma updates.
 # If already installed it keeps working; don't let a reinstall failure abort bootstrap.
 if ! yay -S --needed --noconfirm plasmazones-bin; then
-    echo "==> NOTE: plasmazones-bin install skipped (KWin version pin mismatch)."
-    echo "==> Existing install is unaffected; reinstall when the AUR pin updates."
+	echo "==> NOTE: plasmazones-bin install skipped (KWin version pin mismatch)."
+	echo "==> Existing install is unaffected; reinstall when the AUR pin updates."
 fi
 
 # --- Set zsh as default shell ---
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
-    echo "==> Setting zsh as default shell..."
-    chsh -s /usr/bin/zsh
+	echo "==> Setting zsh as default shell..."
+	chsh -s /usr/bin/zsh
 fi
 
 # --- IBus autostart (dead-key fix for GTK apps like Ghostty) ---
@@ -86,7 +87,31 @@ EOF
 echo "==> Configuring KWin..."
 kwriteconfig6 --file kwinrc --group Windows --key ElectricBorderTiling false
 if command -v qdbus6 >/dev/null 2>&1; then
-    qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
+	qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
+fi
+
+# --- VS Code extensions ---
+if command -v code >/dev/null 2>&1; then
+	echo "==> Installing VS Code extensions..."
+	for ext in \
+		enkia.tokyo-night \
+		angular.ng-template \
+		ms-python.python \
+		ms-python.vscode-pylance \
+		ms-vscode-remote.remote-ssh \
+		ms-vscode-remote.remote-containers \
+		dbaeumer.vscode-eslint \
+		esbenp.prettier-vscode \
+		eamodio.gitlens; do
+	code --install-extension "$ext" --force
+done
+fi
+
+# --- Install default runtimes via mise ---
+if command -v mise >/dev/null 2>&1; then
+	echo "==> Installing default runtimes via mise..."
+	mise use --global node@lts
+	mise use --global python@3.12
 fi
 
 echo "==> Bootstrap complete."
